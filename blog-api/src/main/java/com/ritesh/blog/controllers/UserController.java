@@ -1,7 +1,6 @@
 package com.ritesh.blog.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ritesh.blog.payloads.ApiResponse;
 import com.ritesh.blog.payloads.UserDto;
 import com.ritesh.blog.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/bloggingApp")
@@ -38,21 +40,21 @@ public class UserController {
 	
 	
 	@PostMapping("/createUser")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}
 	
 	
 	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable Integer userId){
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable Integer userId){
 		UserDto updatedUser = this.userService.updateUser(userDto, userId);
 		return ResponseEntity.ok(updatedUser);
 	}
 	
 	@DeleteMapping("/deleteUser/{userId}")
-	public ResponseEntity<?> deleteUser(@PathVariable int userId){
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable int userId){
 		this.userService.deleteUser(userId);
-		return new ResponseEntity(Map.of("message","User deleted Successfully"),HttpStatus.OK);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted Successfully", true),HttpStatus.OK);
 	}
 }
