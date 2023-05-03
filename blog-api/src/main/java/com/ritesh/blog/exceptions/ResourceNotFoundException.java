@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class ResourceNotFoundException extends RuntimeException{
 
+	private static final long serialVersionUID = 1L;
 	String resourceName;
 	String feildName;
 	long fieldValue;
@@ -17,6 +18,5 @@ public class ResourceNotFoundException extends RuntimeException{
 		this.feildName = feildName;
 		this.fieldValue = fieldValue;
 	}
-	
 	
 }
