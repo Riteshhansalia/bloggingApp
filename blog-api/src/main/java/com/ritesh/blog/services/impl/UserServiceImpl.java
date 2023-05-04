@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
-		User user = this.dtoToUser(userDto);
+		User user = this.modelMapper.map(userDto, User.class);
 		User savedUser = this.userRepo.save(user);
 		return this.modelMapper.map(savedUser, UserDto.class);
 	}
@@ -65,15 +65,15 @@ public class UserServiceImpl implements UserService {
 		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " Id", userId));
 		this.userRepo.delete(user);
 	}
-
-	public User dtoToUser(UserDto userDto) {
-		User user = this.modelMapper.map(userDto, User.class);
-		return user;
-	}
-
-	public UserDto userToDto(User user) {
-		UserDto userDto = this.modelMapper.map(user, UserDto.class);
-		return userDto;
-	}
+//
+//	public User dtoToUser(UserDto userDto) {
+//		User user = this.modelMapper.map(userDto, User.class);
+//		return user;
+//	}
+//
+//	public UserDto userToDto(User user) {
+//		UserDto userDto = this.modelMapper.map(user, UserDto.class);
+//		return userDto;
+//	}
 
 }
