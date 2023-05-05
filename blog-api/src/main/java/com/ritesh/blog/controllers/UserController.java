@@ -27,28 +27,33 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+//	getAllUser
 	@GetMapping("/getUsers")
 	public ResponseEntity<List<UserDto>> getAllUser() {
 		return ResponseEntity.ok(this.userService.getAllUser());
 	}
 
+//	getUser
 	@GetMapping("/getUser/{userId}")
 	public ResponseEntity<UserDto> getUser(@PathVariable int userId) {
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
 
+//	createUser
 	@PostMapping("/createUser")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}
 
+//	updateUser
 	@PutMapping("/updateUser/{userId}")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId) {
 		UserDto updatedUser = this.userService.updateUser(userDto, userId);
 		return ResponseEntity.ok(updatedUser);
 	}
 
+//	deleteUser
 	@DeleteMapping("/deleteUser/{userId}")
 	public ResponseEntity<ApiResponse> deleteUser(@PathVariable int userId) {
 		this.userService.deleteUser(userId);

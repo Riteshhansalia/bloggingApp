@@ -27,22 +27,26 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+//	getAllCategory
 	@GetMapping("/getCategories")
 	public ResponseEntity<List<CategoryDto>> getAllCategory() {
 		return ResponseEntity.ok(this.categoryService.getAllCategory());
 	}
 
+//	getCategory
 	@GetMapping("/getCategory/{categoryId}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable int categoryId) {
 		return ResponseEntity.ok(this.categoryService.getCategory(categoryId));
 	}
 
+//	createCategory
 	@PostMapping("/createCategory")
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
 		CategoryDto createCategoryDto = this.categoryService.createCategory(categoryDto);
 		return new ResponseEntity<>(createCategoryDto, HttpStatus.CREATED);
 	}
 
+//	updateCategory
 	@PutMapping("/updateCategory/{categoryId}")
 	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto,
 			@PathVariable int categoryId) {
@@ -50,6 +54,7 @@ public class CategoryController {
 		return ResponseEntity.ok(updateCategory);
 	}
 
+//	deleteCategory
 	@DeleteMapping("/deleteCategory/{categoryId}")
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable int categoryId) {
 		this.categoryService.deleteCategory(categoryId);

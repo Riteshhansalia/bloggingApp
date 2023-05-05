@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ritesh.blog.entities.Category;
@@ -33,6 +36,7 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private CategoryRepo categoryRepo;
 
+//	createPost
 	@Override
 	public PostDto createPost(PostDto postDto, Integer userId, Integer categoryId) {
 		User user = this.userRepo.findById(userId)
@@ -51,6 +55,7 @@ public class PostServiceImpl implements PostService {
 		return this.modelMapper.map(newPost, PostDto.class);
 	}
 
+//	updatePost
 	@Override
 	public PostDto updatePost(PostDto postDto, Integer postId) {
 		Post post = this.postRepo.findById(postId)
@@ -64,6 +69,7 @@ public class PostServiceImpl implements PostService {
 		return this.modelMapper.map(updatedPost, PostDto.class);
 	}
 
+//	deletePost
 	@Override
 	public void deletePost(Integer postId) {
 		Post post = this.postRepo.findById(postId)
@@ -71,6 +77,7 @@ public class PostServiceImpl implements PostService {
 		this.postRepo.delete(post);
 	}
 
+//	getPost
 	@Override
 	public PostDto getpost(Integer postId) {
 		Post post = this.postRepo.findById(postId)
@@ -78,14 +85,21 @@ public class PostServiceImpl implements PostService {
 		return this.modelMapper.map(post, PostDto.class);
 	}
 
+//	getAllPost
 	@Override
-	public List<PostDto> getAllPosts() {
-		List<Post> posts = this.postRepo.findAll();
-		List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+	public List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize) {
+
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+		Page<Post> pagePost = this.postRepo.findAll(p);
+
+		List<Post> allPost = pagePost.getContent();
+
+		List<PostDto> postDtos = allPost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
 		return postDtos;
 	}
 
+//	getPostByUser
 	@Override
 	public List<PostDto> getPostByUser(Integer userId) {
 		User user = this.userRepo.findById(userId)
@@ -96,6 +110,7 @@ public class PostServiceImpl implements PostService {
 		return postDtos;
 	}
 
+//	getPostByCategory
 	@Override
 	public List<PostDto> getPostbyCategory(Integer categoryId) {
 		Category category = this.categoryRepo.findById(categoryId)

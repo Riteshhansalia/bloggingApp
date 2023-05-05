@@ -7,18 +7,25 @@ import com.ritesh.blog.payloads.PostDto;
 
 public interface PostService {
 
+//	createPost
 	PostDto createPost(PostDto postDto, Integer useId, Integer cetegoryId);
 
+//	updatePost
 	PostDto updatePost(PostDto postDto, Integer postId);
 
+//	deletePost
 	void deletePost(Integer postId);
 
+//	getPost
 	PostDto getpost(Integer postId);
 
-	List<PostDto> getAllPosts();
+//	getAllPost
+	List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize);
 
+//	getPostByUser
 	List<PostDto> getPostByUser(Integer userId);
 
+//	getPostByCategory
 	List<PostDto> getPostbyCategory(Integer categoryId);
 
 	List<Post> serchPosts(String Keyword);

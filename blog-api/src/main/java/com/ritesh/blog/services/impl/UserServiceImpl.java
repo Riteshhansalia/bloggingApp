@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+//	createUser
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class);
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 		return this.modelMapper.map(savedUser, UserDto.class);
 	}
 
+//	updateUser
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer userId) {
 		User user = this.userRepo.findById(userId)
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
 		return this.modelMapper.map(updateUser, UserDto.class);
 	}
 
+//	getUser
 	@Override
 	public UserDto getUserById(Integer userId) {
 		User user = this.userRepo.findById(userId)
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
 		return this.modelMapper.map(user, UserDto.class);
 	}
 
+//	getAllUser
 	@Override
 	public List<UserDto> getAllUser() {
 		List<User> users = this.userRepo.findAll();
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
 		return userDtos;
 	}
 
+//	deleteUser
 	@Override
 	public void deleteUser(Integer userId) {
 		User user = this.userRepo.findById(userId)

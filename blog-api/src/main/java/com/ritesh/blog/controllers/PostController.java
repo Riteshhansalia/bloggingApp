@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ritesh.blog.payloads.ApiResponse;
@@ -25,6 +26,7 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
+//	createPost
 	@PostMapping("/user/{userId}/category/{categoryId}/post")
 	public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto, @PathVariable Integer userId,
 			@PathVariable Integer categoryId) {
@@ -33,6 +35,7 @@ public class PostController {
 		return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
 	}
 
+//	getPostByUser
 	@GetMapping("/user/{userId}/post")
 	public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Integer userId) {
 		List<PostDto> getPostByUser = this.postService.getPostByUser(userId);
@@ -40,6 +43,7 @@ public class PostController {
 		return new ResponseEntity<List<PostDto>>(getPostByUser, HttpStatus.OK);
 	}
 
+//	getPostByCategory
 	@GetMapping("/category/{categoryId}/post")
 	public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable Integer categoryId) {
 		List<PostDto> getPostByCategory = this.postService.getPostbyCategory(categoryId);
@@ -47,22 +51,28 @@ public class PostController {
 		return new ResponseEntity<List<PostDto>>(getPostByCategory, HttpStatus.OK);
 	}
 
+//	getAllPost
 	@GetMapping("/getPosts")
-	public ResponseEntity<List<PostDto>> getAllPost() {
-		return ResponseEntity.ok(this.postService.getAllPosts());
+	public ResponseEntity<List<PostDto>> getAllPost(
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+		return ResponseEntity.ok(this.postService.getAllPosts(pageNumber, pageSize));
 	}
 
+//	getPost
 	@GetMapping("/getPosts/{postId}")
 	public ResponseEntity<PostDto> getPost(@PathVariable Integer postId) {
 		return ResponseEntity.ok(this.postService.getpost(postId));
 	}
 
+//	deletePost
 	@DeleteMapping("/deletePost/{postId}")
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable int postId) {
 		this.postService.deletePost(postId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Post deleted Successfully", true), HttpStatus.OK);
 	}
 
+//	updatePost
 	@PutMapping("/updatePost/{postId}")
 	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId) {
 		PostDto updatedPost = this.postService.updatePost(postDto, postId);
