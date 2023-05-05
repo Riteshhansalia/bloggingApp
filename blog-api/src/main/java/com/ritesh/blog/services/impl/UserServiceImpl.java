@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -55,25 +55,17 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> getAllUser() {
 		List<User> users = this.userRepo.findAll();
 
-		List<UserDto> userDtos = users.stream().map((user) -> this.modelMapper.map(users, UserDto.class)).collect(Collectors.toList());
+		List<UserDto> userDtos = users.stream().map((user) -> this.modelMapper.map(user, UserDto.class))
+				.collect(Collectors.toList());
 
 		return userDtos;
 	}
 
 	@Override
 	public void deleteUser(Integer userId) {
-		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", " Id", userId));
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User", " Id", userId));
 		this.userRepo.delete(user);
 	}
-//
-//	public User dtoToUser(UserDto userDto) {
-//		User user = this.modelMapper.map(userDto, User.class);
-//		return user;
-//	}
-//
-//	public UserDto userToDto(User user) {
-//		UserDto userDto = this.modelMapper.map(user, UserDto.class);
-//		return userDto;
-//	}
 
 }

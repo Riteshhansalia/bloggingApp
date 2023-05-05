@@ -14,22 +14,22 @@ import com.ritesh.blog.payloads.ApiResponse;
 
 @RestControllerAdvice
 public class GlobleExceptionHandler {
-	
+
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex){
+	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
 		String message = ex.getMessage();
 		ApiResponse apiResponse = new ApiResponse(message, false);
-		return new ResponseEntity<ApiResponse> (apiResponse,HttpStatus.OK);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 	}
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Map<String, String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex){
+	public ResponseEntity<Map<String, String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex) {
 		Map<String, String> resp = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error)-> {
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
 			String fieldName = ((FieldError) error).getField();
 			String message = error.getDefaultMessage();
 			resp.put(fieldName, message);
 		});
-		return new ResponseEntity<Map<String,String>>(resp, HttpStatus.BAD_REQUEST);
-	} 
+		return new ResponseEntity<Map<String, String>>(resp, HttpStatus.BAD_REQUEST);
+	}
 }

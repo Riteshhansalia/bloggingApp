@@ -8,8 +8,9 @@ import com.ritesh.blog.entities.Category;
 import com.ritesh.blog.entities.Post;
 import com.ritesh.blog.entities.User;
 
-public interface PostRepo extends JpaRepository<Post, Integer>{
+public interface PostRepo extends JpaRepository<Post, Integer> {
 
 	List<Post> findByUser(User user);
+
 	List<Post> findByCategory(Category category);
 }

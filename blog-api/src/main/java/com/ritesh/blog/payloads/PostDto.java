@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 public class PostDto {
 
+	private int postId;
+
 	private String postTitle;
 
 	private String postContent;

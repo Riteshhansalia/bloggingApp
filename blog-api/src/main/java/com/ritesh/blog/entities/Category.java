@@ -1,4 +1,5 @@
 package com.ritesh.blog.entities;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,27 +19,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="categories")
+@Table(name = "categories")
 @Getter
-@Setter	
+@Setter
 @NoArgsConstructor
 public class Category {
 
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int categoryId;
-	
+
 	@NotBlank
-	@Size(min = 4,message = "Minimum size of title is 4!")
-	@Column(name ="title", length = 100, nullable = false)
+	@Size(min = 4, message = "Minimum size of title is 4!")
+	@Column(name = "title", length = 100, nullable = false)
 	private String categoryTitle;
-	
+
 	@NotBlank
-	@Size(max = 10,message = "Maximum size of discription is 10!")
-	@Column(name="description")
+	@Size(max = 50, message = "Maximum size of discription is 50!")
+	@Column(name = "description")
 	private String categoryDescription;
-	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
-	
+
 }
