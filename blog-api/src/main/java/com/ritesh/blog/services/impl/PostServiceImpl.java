@@ -97,7 +97,7 @@ public class PostServiceImpl implements PostService {
 		List<PostDto> postDtos = allPost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
 		return postDtos;
-	}
+	}	
 
 //	getPostByUser
 	@Override
