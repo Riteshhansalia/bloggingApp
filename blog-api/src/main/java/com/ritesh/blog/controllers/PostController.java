@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ritesh.blog.payloads.ApiResponse;
 import com.ritesh.blog.payloads.PostDto;
+import com.ritesh.blog.payloads.PostResponse;
 import com.ritesh.blog.services.PostService;
 
 @RestController
@@ -53,10 +54,14 @@ public class PostController {
 
 //	getAllPost
 	@GetMapping("/getPosts")
-	public ResponseEntity<List<PostDto>> getAllPost(
+	public ResponseEntity<PostResponse> getAllPost(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
-		return ResponseEntity.ok(this.postService.getAllPosts(pageNumber, pageSize));
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String shortBy,
+			@RequestParam(value = "shortDir", defaultValue = "asc", required = false) String shortDir
+			) {
+		PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, shortBy, shortDir);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 
 //	getPost

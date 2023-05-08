@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ritesh.blog.entities.Category;
@@ -16,6 +17,7 @@ import com.ritesh.blog.entities.Post;
 import com.ritesh.blog.entities.User;
 import com.ritesh.blog.exceptions.ResourceNotFoundException;
 import com.ritesh.blog.payloads.PostDto;
+import com.ritesh.blog.payloads.PostResponse;
 import com.ritesh.blog.repositories.CategoryRepo;
 import com.ritesh.blog.repositories.PostRepo;
 import com.ritesh.blog.repositories.UserRepo;
@@ -87,16 +89,28 @@ public class PostServiceImpl implements PostService {
 
 //	getAllPost
 	@Override
-	public List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String shortBy, String shortDir) {
 
-		Pageable p = PageRequest.of(pageNumber, pageSize);
+		Sort sort = (shortDir.equalsIgnoreCase("asc"))?Sort.by(shortBy).ascending():Sort.by(shortBy).descending();
+		
+		Pageable p = PageRequest.of(pageNumber, pageSize, sort);
 		Page<Post> pagePost = this.postRepo.findAll(p);
 
 		List<Post> allPost = pagePost.getContent();
 
 		List<PostDto> postDtos = allPost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		return postDtos;
+		
+		PostResponse postResponse = new PostResponse();
+		
+		postResponse.setContant(postDtos);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElements(pagePost.getTotalElements());
+		postResponse.setTotalPages(pagePost.getTotalPages());
+		postResponse.setLastPage(pagePost.isLast());
+		
+		return postResponse;
 	}	
 
 //	getPostByUser
