@@ -2,7 +2,6 @@ package com.ritesh.blog.services;
 
 import java.util.List;
 
-import com.ritesh.blog.entities.Post;
 import com.ritesh.blog.payloads.PostDto;
 import com.ritesh.blog.payloads.PostResponse;
 
@@ -22,7 +21,6 @@ public interface PostService {
 
 //	getAllPost
 	PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String shortBy, String shortDir);
-	
 
 //	getPostByUser
 	List<PostDto> getPostByUser(Integer userId);
@@ -30,5 +28,6 @@ public interface PostService {
 //	getPostByCategory
 	List<PostDto> getPostbyCategory(Integer categoryId);
 
-	List<Post> serchPosts(String Keyword);
+//	serchPost
+	List<PostDto> serchPosts(String Keyword);
 }
